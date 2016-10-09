@@ -23,9 +23,8 @@
 //
 // just add new divs with img children and it would work (i think so ;) )
 
-
 var dimensions = 200;
-var paddingRight = 3;
+var marginRight = 3;
 
 $(document).ready(function() {
 
@@ -44,25 +43,32 @@ $(document).ready(function() {
         $('.slideShowContainer > div').css({'display':'inline-block'});
 
         $('.slideShowContainer div >img ').css({
-            'padding-right': paddingRight + 'px',
+            'margin-right': marginRight + 'px',
+            'border':'1px solid transparent',
             'width': dimensions + 'px',
             'height': dimensions + 'px'
         });
 
+        function moveCards() {
+            $('.slideShowContainer div:first-child').animate({
+                'margin-left':'-'+ dimensions +'px'
+            },3000,function () {
+                $('.slideShowContainer div:first-child')
+                .appendTo($('.slideShowContainer'))
+                .css({'margin-left':'0px'});
+            });
+            setTimeout(function () {
+                moveCards();
+            }, 3100);//increase this delay if slides start to come over each other
+        }
 
+        moveCards();
 
-function moveCards() {
-    $('.slideShowContainer div:first-child').animate({
-        'margin-left':'-'+dimensions+'px'
-    },3000,function () {
-        $('.slideShowContainer div:first-child').appendTo($('.slideShowContainer')).css({'margin-left':'0px'});
-
-    });
-    setTimeout(function () {
-        moveCards()
-    }, 3100);//increase this delay if slides start to come over each other
-}
-
-moveCards();
+        $('.slideShowContainer div > img').hover(function () {
+                $(this).css({'border':'1px solid #FFFFFF'});
+                $('.slideShowContainer div:first-child').stop();
+        }, function () {
+            $(this).css({'border':'1px solid transparent'});
+        });
 
 });
